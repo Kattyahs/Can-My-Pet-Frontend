@@ -1,35 +1,34 @@
-import  { useEffect, useState } from 'react';
-import { filterFoodsByAnimalAndPermission } from '../utils/filters';
+import  { useState } from 'react';
 import FoodCards from './FoodCards';
 import { useLocation } from 'react-router-dom';
 import { Animal } from '../types';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import filterFoodsByAnimalAndPermission from '../utils/filters';
 
 type AnimalSearchProps = {
-  //animalName: string;
 }
-
+interface LocationState  {
+  animal: Animal; 
+}
 export default function AnimalSearch({  }: AnimalSearchProps) {
-  // Estado para controlar el filtro de isAllowed
   const [isAllowed, setIsAllowed] = useState<boolean | undefined>(undefined);
 
+  const location = useLocation();
+  const state = location.state as LocationState;
+  const animal = state.animal;
+  console.log(animal?.name);
 
-  /*const location = useLocation();
-  const animal = location.state as Animal;
-  useEffect(() => {
-    console.log(animal)
-    });*/
-    const navigate = useNavigate();
+
+    /*const navigate = useNavigate();
     const { animalName } = useParams<{ animalName: string }>();
     useEffect(() => {
         if (!animalName) {
             navigate('/animals');
         }
-    }, [animalName]);
+    }, [animalName]);*/
+    
 
-
-    const filteredFoods = animalName ? filterFoodsByAnimalAndPermission(animalName, isAllowed) : [];
+    const filteredFoods = animal.id ? filterFoodsByAnimalAndPermission(animal.id, isAllowed) : [];
+    console.log(filteredFoods);
 
   /*useEffect(() => {
     console.log(filteredFoods)
@@ -66,7 +65,7 @@ export default function AnimalSearch({  }: AnimalSearchProps) {
         {filteredFoods.map((filteredFood) => (
             
           <FoodCards 
-            key={filteredFood.food.foodName}
+            key={filteredFood.id}
             animalFoodPermission={filteredFood}
             onClick={() => {}}
           />

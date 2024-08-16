@@ -12,12 +12,12 @@ type AnimalCardProps = {
           onClick={onClick}
         >
           <img 
-            src={animal.animalImage} 
-            alt={animal.animalName} 
+            src={animal.image} 
+            alt={animal.name} 
             className="w-full h-48 object-cover"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold">{animal.animalName}</h3>
+            <h3 className="text-lg font-semibold">{animal.name}</h3>
           </div>
         </div>
     )

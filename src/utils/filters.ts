@@ -1,15 +1,29 @@
 
 
-import { AnimalFoodPermission } from '../types';
-import { animalFoodPermissions } from '../data/animalFoodPermission.ts';
+import {  AnimalFoodPermission } from '../types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export function filterFoodsByAnimalAndPermission(
-  animalName: string, 
-  isAllowed?: boolean 
-): AnimalFoodPermission[] {
-    console.log(animalName, isAllowed)
-  return animalFoodPermissions.filter(permission => 
-    permission.animal.animalName === animalName &&
+export default function filterFoodsByAnimalAndPermission(animalId: number, isAllowed: boolean | undefined) {
+    const [data, setData] = useState<AnimalFoodPermission[]>([]);
+    const API_URL = import.meta.env.VITE_API_URL;
+    
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get<AnimalFoodPermission[]>(`${API_URL}/canmypeteatrelation/readAll`);
+          setData(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+      fetchData();
+    }, [API_URL]);
+    console.log(isAllowed);
+    
+  return data.filter(permission => 
+    permission.idPet === animalId &&
     (isAllowed === undefined || permission.isAllowed === isAllowed)
   );
 }

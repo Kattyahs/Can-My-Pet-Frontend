@@ -17,6 +17,7 @@ export type Food = {
     idTypeFood: number;
     createdAt: string;
     updatedAt: string;
+    TypeFood?: TypeFood;
     
 }
 
@@ -28,6 +29,8 @@ export type AnimalFoodPermission = {
     description: string;
     createdAt: string;
     updatedAt: string;
+    Food?: Food;
+
 }
 
 export type TypeFood = {

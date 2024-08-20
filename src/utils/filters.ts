@@ -4,7 +4,7 @@ import {  AnimalFoodPermission } from '../types';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default  function filterFood(animalId: number, isAllowed: boolean | undefined, typeOfFood:string ) {
+export default  function filterFood(animalId: number, isAllowed: boolean | undefined, typeOfFood:string, searchTerm: string ) {
     const [data, setData] = useState<AnimalFoodPermission[]>([]);
     const API_URL = import.meta.env.VITE_API_URL;
     
@@ -24,6 +24,6 @@ export default  function filterFood(animalId: number, isAllowed: boolean | undef
   return data.filter(result => 
     result.idPet === animalId &&
     (isAllowed === undefined || result.isAllowed === isAllowed)  &&
-    (typeOfFood === '' || result.Food?.TypeFood?.name === typeOfFood)
+    (typeOfFood === '' || result.Food?.TypeFood?.name === typeOfFood) && result.Food?.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 }

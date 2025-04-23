@@ -1,55 +1,63 @@
-import { useEffect, useState } from "react";
-import type { AnimalFoodPermission, Food } from "../types";
-import axios from "axios";
+import type { AnimalFoodPermission } from "../../../types";
 
 type FoodCardProps = {
-    animalFoodPermission: AnimalFoodPermission;
-    onClick: () => void;
-    }
+  animalFoodPermission: AnimalFoodPermission;
+};
 
-export default function FoodCards({animalFoodPermission, onClick}: FoodCardProps) {
-    const [food, setFood] = useState<Food>();
-
-    const API_URL = import.meta.env.VITE_API_URL;
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get<Food>(`${API_URL}/food/readById/${animalFoodPermission.idFood}`);
-            setFood(response.data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-  
-        fetchData();
-      }, [API_URL]);
-
+export default function FoodCards({ animalFoodPermission }: FoodCardProps) {
   return (
-    <div 
-        className={`bg-white border shadow-lg overflow-hidden cursor-pointer
+    <div
+      className={`bg-white border shadow-lg overflow-hidden cursor-pointer
         transform hover:-translate-y-1 transition-all duration-200 rounded-xl font-sans
-        ${animalFoodPermission.isAllowed ? 'border-green-200 hover:border-green-500 hover:shadow-green-200' : 
-                    'border-red-200 hover:border-red-500 hover:shadow-red-200'}`}
-        onClick={onClick}
+        ${
+          animalFoodPermission.isAllowed
+            ? "border-green-200 hover:border-green-500 hover:shadow-green-200"
+            : "border-red-200 hover:border-red-500 hover:shadow-red-200"
+        }`}
+      onClick={() => {
+        console.log(
+          "que comida: ",
+          animalFoodPermission.Food?.description,
+          "porque: ",
+          animalFoodPermission.description
+        );
+      }}
     >
+      <img
+        src={animalFoodPermission.Food?.image}
+        alt={animalFoodPermission.Food?.name}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-800">
+          {animalFoodPermission.Food?.name}
+        </h3>
 
-        <img 
-            src={food?.image} 
-            alt={food?.name} 
-            className="w-full h-48 object-cover"
-        />
-        <div className="p-4">
-            <h3 className="text-lg font-semibold">{food?.name}</h3>
-            <span className="text-sm bg-gray-200 text-gray-800 px-3 py-1 rounded-full">{food?.TypeFood?.name}</span>
-            <p className={`p-1 rounded-full text-xs font-semibold ml-4 mt-2
-                ${animalFoodPermission.isAllowed ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} 
-                border 
-                ${animalFoodPermission.isAllowed ? 'border-green-200' : 'border-red-200'}
-                shadow-sm inline-block`}>
-                {animalFoodPermission.isAllowed  ? 'Permitido' : 'No Permitido'}
-            </p>
-        </div>
+        {/* Tipo de comida */}
+        <span className="text-sm bg-gray-200 text-gray-800 px-3 py-1 rounded-full inline-block mt-1">
+          {animalFoodPermission.Food?.TypeFood?.name}
+        </span>
+
+        {/* Descripción */}
+        {animalFoodPermission.description && (
+          <p className="text-sm text-gray-600 mt-2 line-clamp-3">
+            {animalFoodPermission.description}
+          </p>
+        )}
+
+        {/* Estado de permitido / no permitido */}
+        <p
+          className={`p-1 rounded-full text-xs font-semibold mt-3
+      ${
+        animalFoodPermission.isAllowed
+          ? "bg-green-100 text-green-600 border border-green-200"
+          : "bg-red-100 text-red-600 border border-red-200"
+      }
+      shadow-sm inline-block`}
+        >
+          {animalFoodPermission.isAllowed ? "Permitido" : "No Permitido"}
+        </p>
+      </div>
     </div>
-)
-  
+  );
 }

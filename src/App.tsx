@@ -4,6 +4,8 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AnimalGallery from "./layouts/animalGallery/AnimalGallery";
 import AnimalDetail from "./layouts/animalDetail/AnimalDetail";
+import AboutUs from "./layouts/aboutus/AboutUs";
+import ContactUs from "./layouts/contact/Contact";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/animals" element={<AnimalGallery />} />
             <Route path="/animals/:animalName" element={<AnimalDetail />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </main>
         <Footer />

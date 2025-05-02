@@ -14,14 +14,7 @@ export default function FoodCards({ animalFoodPermission }: FoodCardProps) {
             ? "border-green-200 hover:border-green-500 hover:shadow-green-200"
             : "border-red-200 hover:border-red-500 hover:shadow-red-200"
         }`}
-      onClick={() => {
-        console.log(
-          "que comida: ",
-          animalFoodPermission.Food?.description,
-          "porque: ",
-          animalFoodPermission.description
-        );
-      }}
+      onClick={() => {}}
     >
       <img
         src={animalFoodPermission.Food?.image}

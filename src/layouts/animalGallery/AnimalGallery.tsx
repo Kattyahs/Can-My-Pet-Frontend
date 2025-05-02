@@ -3,9 +3,10 @@ import AnimalCards from "./components/AnimalCards";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Animal } from "../../types/index";
+import { Mosaic } from "react-loading-indicators";
 
 export default function AnimalGallery() {
-  const [animals, setAnimals] = useState<Animal[]>([]);
+  const [animals, setAnimals] = useState<Animal[] | null>(null);
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -25,15 +26,23 @@ export default function AnimalGallery() {
   const handleCardClick = (animal: Animal) => {
     navigate(`/animals/${animal.name}`, { state: { animal } });
   };
-  return (
-    <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {animals.map((animal) => (
-        <AnimalCards
-          key={animal.name}
-          animal={animal}
-          onClick={() => handleCardClick(animal)}
-        />
-      ))}
-    </div>
-  );
+  if (animals === null) {
+    return (
+      <div className="p-8 grid place-items-center min-h-screen w-full">
+        <Mosaic color="#32cd32" size="large" text="Cargando..." textColor="" />
+      </div>
+    );
+  } else {
+    return (
+      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {animals.map((animal) => (
+          <AnimalCards
+            key={animal.name}
+            animal={animal}
+            onClick={() => handleCardClick(animal)}
+          />
+        ))}
+      </div>
+    );
+  }
 }
